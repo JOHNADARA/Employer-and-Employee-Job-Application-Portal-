@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Job Portal</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylessheet" href="styls.css">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -28,7 +28,6 @@
         <p>Find your dream job or post job openings here!</p>
     </div>
 
-    <!-- Rest of the HTML remains the same -->
     <div id="register-form" class="form-container" style="display: none;">
         <h2>Register</h2>
         <form onsubmit="registerUser(event)">
@@ -71,6 +70,33 @@
             <div id="employer-jobs"></div>
         </div>
     </div>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Job Portal</h3>
+                <p>Your gateway to career opportunities and talent acquisition.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#" onclick="showHome()">Home</a></li>
+                    <li><a href="#" onclick="showRegister()">Register</a></li>
+                    <li><a href="#" onclick="showLogin()">Login</a></li>
+                    <li><a href="#" onclick="alert('About page coming soon!')">About Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p>Email: support@jobportal.com</p>
+                <p>Phone: (123) 456-7890</p>
+                <p>Address: 123 Career St, Job City</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Job Portal. All rights reserved.</p>
+        </div>
+    </footer>
 
     <script src="script.js"></script>
 </body>

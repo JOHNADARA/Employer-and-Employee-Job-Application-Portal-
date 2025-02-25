@@ -49,6 +49,7 @@ function showHome() {
     hideAll();
     document.getElementById('home-content').style.display = 'block';
     toggleMenu();
+    window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll to top
 }
 
 function showRegister() {
