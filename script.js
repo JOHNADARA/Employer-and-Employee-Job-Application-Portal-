@@ -27,13 +27,23 @@ function updateMenu() {
             `;
         }
     } else {
-        authButtons.style.display = 'block';
+        authButtons.style.display = 'flex';
         menu.innerHTML += `
             <li><a href="#" onclick="showRegister()">Register</a></li>
             <li><a href="#" onclick="showLogin()">Login</a></li>
         `;
     }
 }
+
+// Scroll effect for navbar
+window.addEventListener('scroll', () => {
+    const navbar = document.querySelector('.navbar');
+    if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+    } else {
+        navbar.classList.remove('scrolled');
+    }
+});
 
 function showHome() {
     hideAll();
@@ -113,7 +123,7 @@ async function loginUser(event) {
     if (response.ok) {
         const data = await response.json();
         token = data.token;
-        currentUser = jwt_decode(token); // Assumes jwt-decode is included
+        currentUser = jwt_decode(token);
         updateMenu();
         showMainContent();
     }
@@ -136,7 +146,5 @@ function logout() {
     showHome();
 }
 
-// Include other existing functions (postJob, loadJobs, etc.) here
-// Make sure to add toggleMenu() to their respective navigation calls
-
 updateMenu(); // Initial menu setup
+// Add other existing functions (postJob, loadJobs, etc.) here

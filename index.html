@@ -7,18 +7,18 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <nav>
-        <h1>Job Portal</h1>
+    <nav class="navbar">
+        <h1 class="logo">Job Portal</h1>
         <div id="menu-container">
-            <button class="menu-toggle" onclick="toggleMenu()">☰</button>
-            <ul id="nav-menu">
+            <button class="menu-toggle" aria-label="Toggle menu" onclick="toggleMenu()">☰</button>
+            <ul id="nav-menu" class="nav-menu">
                 <li><a href="#" onclick="showHome()">Home</a></li>
-                <!-- Menu items will be dynamically added via JavaScript -->
+                <!-- Dynamic items added via JavaScript -->
             </ul>
         </div>
-        <div id="auth-buttons">
-            <button onclick="showRegister()">Register</button>
-            <button onclick="showLogin()">Login</button>
+        <div id="auth-buttons" class="auth-buttons">
+            <button class="auth-btn" onclick="showRegister()">Register</button>
+            <button class="auth-btn" onclick="showLogin()">Login</button>
         </div>
     </nav>
 
@@ -27,6 +27,7 @@
         <p>Find your dream job or post job openings here!</p>
     </div>
 
+    <!-- Rest of the HTML remains the same -->
     <div id="register-form" class="form-container" style="display: none;">
         <h2>Register</h2>
         <form onsubmit="registerUser(event)">
