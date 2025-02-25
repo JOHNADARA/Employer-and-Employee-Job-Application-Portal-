@@ -9,10 +9,45 @@ nav {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
+    background-color: #f8f8f8;
+    padding: 10px 20px;
 }
 
-.form-container {
-    max-width: 400px;
+#menu-container {
+    position: relative;
+}
+
+#nav-menu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+#nav-menu li {
+    margin-right: 20px;
+}
+
+#nav-menu a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+}
+
+#nav-menu a:hover {
+    color: #4CAF50;
+}
+
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.form-container, .content-section {
+    max-width: 600px;
     margin: 0 auto 20px;
     padding: 20px;
     border: 1px solid #ccc;
@@ -42,4 +77,39 @@ button:hover {
     border: 1px solid #ddd;
     padding: 10px;
     margin: 10px 0;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    #nav-menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background-color: #f8f8f8;
+        width: 200px;
+        flex-direction: column;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    #nav-menu.active {
+        display: flex;
+    }
+
+    #nav-menu li {
+        margin: 10px 0;
+        padding: 0 20px;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    nav {
+        flex-wrap: wrap;
+    }
+
+    #auth-buttons {
+        margin-top: 10px;
+    }
 }

@@ -9,11 +9,23 @@
 <body>
     <nav>
         <h1>Job Portal</h1>
+        <div id="menu-container">
+            <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+            <ul id="nav-menu">
+                <li><a href="#" onclick="showHome()">Home</a></li>
+                <!-- Menu items will be dynamically added via JavaScript -->
+            </ul>
+        </div>
         <div id="auth-buttons">
             <button onclick="showRegister()">Register</button>
             <button onclick="showLogin()">Login</button>
         </div>
     </nav>
+
+    <div id="home-content" class="content-section">
+        <h2>Welcome to Job Portal</h2>
+        <p>Find your dream job or post job openings here!</p>
+    </div>
 
     <div id="register-form" class="form-container" style="display: none;">
         <h2>Register</h2>

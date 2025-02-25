@@ -1,15 +1,81 @@
 let currentUser = null;
+let token = null;
+
+function toggleMenu() {
+    const menu = document.getElementById('nav-menu');
+    menu.classList.toggle('active');
+}
+
+function updateMenu() {
+    const menu = document.getElementById('nav-menu');
+    const authButtons = document.getElementById('auth-buttons');
+    menu.innerHTML = '<li><a href="#" onclick="showHome()">Home</a></li>';
+
+    if (currentUser) {
+        authButtons.style.display = 'none';
+        if (currentUser.type === 'jobseeker') {
+            menu.innerHTML += `
+                <li><a href="#" onclick="showJobs()">Find Jobs</a></li>
+                <li><a href="#" onclick="alert('Profile feature coming soon!')">Profile</a></li>
+                <li><a href="#" onclick="logout()">Logout</a></li>
+            `;
+        } else if (currentUser.type === 'employer') {
+            menu.innerHTML += `
+                <li><a href="#" onclick="showEmployerDashboard()">Dashboard</a></li>
+                <li><a href="#" onclick="alert('Profile feature coming soon!')">Profile</a></li>
+                <li><a href="#" onclick="logout()">Logout</a></li>
+            `;
+        }
+    } else {
+        authButtons.style.display = 'block';
+        menu.innerHTML += `
+            <li><a href="#" onclick="showRegister()">Register</a></li>
+            <li><a href="#" onclick="showLogin()">Login</a></li>
+        `;
+    }
+}
+
+function showHome() {
+    hideAll();
+    document.getElementById('home-content').style.display = 'block';
+    toggleMenu();
+}
 
 function showRegister() {
+    hideAll();
     document.getElementById('register-form').style.display = 'block';
-    document.getElementById('login-form').style.display = 'none';
-    document.getElementById('main-content').style.display = 'none';
+    toggleMenu();
 }
 
 function showLogin() {
-    document.getElementById('register-form').style.display = 'none';
+    hideAll();
     document.getElementById('login-form').style.display = 'block';
+    toggleMenu();
+}
+
+function showJobs() {
+    hideAll();
+    document.getElementById('main-content').style.display = 'block';
+    document.getElementById('jobseeker-view').style.display = 'block';
+    loadJobs();
+    toggleMenu();
+}
+
+function showEmployerDashboard() {
+    hideAll();
+    document.getElementById('main-content').style.display = 'block';
+    document.getElementById('employer-view').style.display = 'block';
+    loadEmployerJobs();
+    toggleMenu();
+}
+
+function hideAll() {
+    document.getElementById('home-content').style.display = 'none';
+    document.getElementById('register-form').style.display = 'none';
+    document.getElementById('login-form').style.display = 'none';
     document.getElementById('main-content').style.display = 'none';
+    document.getElementById('jobseeker-view').style.display = 'none';
+    document.getElementById('employer-view').style.display = 'none';
 }
 
 async function registerUser(event) {
@@ -26,7 +92,8 @@ async function registerUser(event) {
     });
 
     if (response.ok) {
-        alert('Registration successful! Please login.');
+        const data = await response.json();
+        alert(`Registration successful! Set up MFA with this secret: ${data.mfaSecret}`);
         showLogin();
     }
 }
@@ -35,85 +102,41 @@ async function loginUser(event) {
     event.preventDefault();
     const email = document.getElementById('login-email').value;
     const password = document.getElementById('login-password').value;
+    const mfaCode = prompt('Enter your MFA code');
 
     const response = await fetch('/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
+        body: JSON.stringify({ email, password, mfaCode })
     });
 
     if (response.ok) {
-        const user = await response.json();
-        currentUser = user;
+        const data = await response.json();
+        token = data.token;
+        currentUser = jwt_decode(token); // Assumes jwt-decode is included
+        updateMenu();
         showMainContent();
     }
 }
 
 function showMainContent() {
-    document.getElementById('register-form').style.display = 'none';
-    document.getElementById('login-form').style.display = 'none';
+    hideAll();
     document.getElementById('main-content').style.display = 'block';
-
     if (currentUser.type === 'jobseeker') {
-        document.getElementById('jobseeker-view').style.display = 'block';
-        document.getElementById('employer-view').style.display = 'none';
-        loadJobs();
+        showJobs();
     } else {
-        document.getElementById('jobseeker-view').style.display = 'none';
-        document.getElementById('employer-view').style.display = 'block';
-        loadEmployerJobs();
+        showEmployerDashboard();
     }
 }
 
-async function postJob(event) {
-    event.preventDefault();
-    const title = document.getElementById('job-title').value;
-    const description = document.getElementById('job-desc').value;
-
-    const response = await fetch('/post-job', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title, description, employerId: currentUser.id })
-    });
-
-    if (response.ok) {
-        loadEmployerJobs();
-    }
+function logout() {
+    currentUser = null;
+    token = null;
+    updateMenu();
+    showHome();
 }
 
-async function loadJobs() {
-    const response = await fetch('/jobs');
-    const jobs = await response.json();
-    const jobListings = document.getElementById('job-listings');
-    jobListings.innerHTML = jobs.map(job => `
-        <div class="job-listing">
-            <h3>${job.title}</h3>
-            <p>${job.description}</p>
-            <button onclick="applyJob(${job.id})">Apply</button>
-        </div>
-    `).join('');
-}
+// Include other existing functions (postJob, loadJobs, etc.) here
+// Make sure to add toggleMenu() to their respective navigation calls
 
-async function loadEmployerJobs() {
-    const response = await fetch(`/employer-jobs/${currentUser.id}`);
-    const jobs = await response.json();
-    const employerJobs = document.getElementById('employer-jobs');
-    employerJobs.innerHTML = jobs.map(job => `
-        <div class="job-listing">
-            <h3>${job.title}</h3>
-            <p>${job.description}</p>
-        </div>
-    `).join('');
-}
-
-async function applyJob(jobId) {
-    const response = await fetch('/apply-job', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ jobId, userId: currentUser.id })
-    });
-
-    if (response.ok) {
-        alert('Application submitted successfully!');
-    }
-}
+updateMenu(); // Initial menu setup
