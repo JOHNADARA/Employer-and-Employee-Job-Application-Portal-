@@ -3,9 +3,6 @@ body {
     margin: 0;
     padding: 0;
     background-color: #f4f4f4;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
 }
 
 .navbar {
@@ -157,66 +154,6 @@ button:hover:not(.auth-btn):not(.menu-toggle) {
     background-color: #fff;
 }
 
-/* Footer Styles */
-.footer {
-    background-color: #333;
-    color: #fff;
-    padding: 40px 20px 20px;
-    margin-top: auto;
-    width: 100%;
-}
-
-.footer-container {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.footer-section {
-    flex: 1;
-    min-width: 200px;
-    margin: 20px;
-}
-
-.footer-section h3 {
-    color: #4CAF50;
-    margin-bottom: 15px;
-    font-size: 18px;
-}
-
-.footer-section p {
-    margin: 5px 0;
-    font-size: 14px;
-}
-
-.footer-section ul {
-    list-style: none;
-    padding: 0;
-}
-
-.footer-section ul li {
-    margin: 10px 0;
-}
-
-.footer-section ul li a {
-    color: #fff;
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-.footer-section ul li a:hover {
-    color: #4CAF50;
-}
-
-.footer-bottom {
-    text-align: center;
-    padding-top: 20px;
-    border-top: 1px solid #444;
-    font-size: 12px;
-}
-
 /* Responsive Design */
 @media (max-width: 768px) {
     .navbar {
@@ -273,16 +210,6 @@ button:hover:not(.auth-btn):not(.menu-toggle) {
     .auth-btn {
         padding: 10px 20px;
     }
-
-    .footer-container {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-    }
-
-    .footer-section {
-        margin: 15px 0;
-    }
 }
 
 @media (max-width: 480px) {
@@ -297,10 +224,6 @@ button:hover:not(.auth-btn):not(.menu-toggle) {
     .form-container, .content-section {
         margin: 10px;
         padding: 15px;
-    }
-
-    .footer {
-        padding: 20px 10px;
     }
 }
 
